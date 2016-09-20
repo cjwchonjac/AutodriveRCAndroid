@@ -30,7 +30,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     private LocationManager mLocationManager;
     private Location mLocation;
 
-    private static final UUID AUTODRIVE_UUID = UUID.fromString("autodrive");
+    private Connector mConnector;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -50,6 +51,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        connectToHeadUnit();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -64,17 +66,10 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     public void connectToHeadUnit() {
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> devices = adapter.getBondedDevices();
-
-        for (BluetoothDevice device : devices) {
-            try {
-                String name = device.getName();
-
-                device.createRfcommSocketToServiceRecord(AUTODRIVE_UUID);
-            } catch (IOException e) {
-            }
-        }
+        // if (mConnector == null) {
+            mConnector = new Connector();
+            mConnector.start();
+        // }
     }
 
     public void startAutoDrive() {
