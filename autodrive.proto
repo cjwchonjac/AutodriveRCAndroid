@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package com.autodrive.message;
+
+message LocationMessage {
+  required double latitude = 1;
+  required double longitude = 2;
+}

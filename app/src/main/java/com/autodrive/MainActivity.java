@@ -1,4 +1,4 @@
-package autodrive.cjw.com.autodrive;
+package com.autodrive;
 
 import android.app.Activity;
 import android.content.Intent;

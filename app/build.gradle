@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "autodrive.cjw.com.autodrive"
+        applicationId "com.autodrive"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -22,4 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.google.protobuf:protobuf-java:2.6.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
 }

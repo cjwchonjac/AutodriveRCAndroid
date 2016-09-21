@@ -1,16 +1,20 @@
-package autodrive.cjw.com.autodrive;
+package com.autodrive;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
+import android.location.Location;
 import android.os.Handler;
 import android.os.ParcelUuid;
 import android.util.Log;
 
+import com.autodrive.message.Autodrive;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
@@ -52,6 +56,8 @@ public class Connector {
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE = 0x10000001;
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE_FAILED = 0x10000002;
 
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_SEND_LOCATION_DATA = 0x20000001;
+
 
     private static final int READ_BUFFER_SIZE = 1024 * 1024;
 
@@ -83,6 +89,7 @@ public class Connector {
     private static final UUID AUTODRIVE_UUID = UUID.fromString("50038ec2-6485-4a54-a8ee-997d8e1edaa3");
 
     public static interface Callback {
+
         public void onInitialize();
 
         public void onDestroyed();
@@ -118,28 +125,31 @@ public class Connector {
 
                     device.fetchUuidsWithSdp();
                     for (ParcelUuid uuid : device.getUuids()) {
-                        Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID " + uuid.getUuid().toString());
+                        // Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID " + uuid.getUuid().toString());
                         if (uuid.getUuid().compareTo(AUTODRIVE_UUID) == 0) {
-                            Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID matched");
+                            // Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID matched");
                             try {
                                 socket = device.createRfcommSocketToServiceRecord(uuid.getUuid());
                                 socket.connect();
                                 break LOOP;
                             } catch (IOException e) {
-                                try {
-                                    socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
-                                } catch (IllegalAccessException e1) {
-                                    e1.printStackTrace();
-                                } catch (InvocationTargetException e1) {
-                                    e1.printStackTrace();
-                                } catch (NoSuchMethodException e1) {
-                                    e1.printStackTrace();
+                                if (socket != null) {
+                                    try {
+                                        socket.close();
+                                    } catch (IOException e1) {
+                                    }
                                 }
-                                try {
-                                    socket.connect();
-                                } catch (IOException e1) {
-                                }
-                                break LOOP;
+//                                try {
+//                                    socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
+//                                } catch (IllegalAccessException e1) {
+//                                } catch (InvocationTargetException e1) {
+//                                } catch (NoSuchMethodException e1) {
+//                                }
+//                                try {
+//                                    socket.connect();
+//                                } catch (IOException e1) {
+//                                }
+//                                break LOOP;
                             }
                         }
                     }
@@ -227,10 +237,10 @@ public class Connector {
     }
 
     public void start() {
-        // if (mConnectorThread == null) {
+        if (mConnectorThread == null) {
             mConnectorThread = new ConnectorThread();
             mConnectorThread.start();
-        // }
+        }
     }
 
     void handleAction(int seq, int actionCode, byte[] payload, int offset, int length) {
@@ -408,14 +418,17 @@ public class Connector {
 
             if (mConnectorThread != null) {
                 mConnectorThread.interrupt();
+                mConnectorThread = null;
             }
 
             if (mWriteThread != null) {
                 mWriteThread.interrupt();
+                mWriteThread = null;
             }
 
             if (mConnectionChecker != null) {
                 mConnectionChecker.interrupt();
+                mConnectionChecker = null;
             }
 
             if (!manual) {
@@ -423,8 +436,19 @@ public class Connector {
             }
 
         }
-
     }
 
+    public void sendLocation(Location l) {
+        double lat = l.getLatitude();
+        double lng = l.getLongitude();
 
+        Autodrive.LocationMessage message =
+                Autodrive.LocationMessage.newBuilder().setLatitude(lat).setLongitude(lng).build();
+
+        byte[] payload = message.toByteArray();
+
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_SEND_LOCATION_DATA,
+                payload);
+    }
 }

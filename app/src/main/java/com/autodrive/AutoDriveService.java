@@ -1,4 +1,4 @@
-package autodrive.cjw.com.autodrive;
+package com.autodrive;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -12,17 +12,19 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 /**
  * Created by jaewoncho on 2016. 9. 9..
  */
-public class AutoDriveService extends Service implements SensorEventListener, LocationListener {
+public class AutoDriveService extends Service implements SensorEventListener, LocationListener, Connector.Callback {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -31,6 +33,28 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     private Location mLocation;
 
     private Connector mConnector;
+
+    Set<AutoDriveServiceCallback> mCallbacks;
+
+    class AutoDriveServiceBinder extends Binder {
+        public void connect() {
+            connectToHeadUnit();
+        }
+
+        public void registerCallback(AutoDriveServiceCallback c) {
+            mCallbacks.add(c);
+        }
+
+        public void unregisterCallback(AutoDriveServiceCallback c) {
+            mCallbacks.remove(c);
+        }
+    }
+
+    public interface AutoDriveServiceCallback {
+        public void onConnecting();
+        public void onInitialized();
+        public void onDisconnected();
+    }
 
 
     @Override
@@ -41,6 +65,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mCallbacks = new HashSet<>();
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -66,10 +92,14 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     public void connectToHeadUnit() {
-        // if (mConnector == null) {
+        if (mConnector == null) {
             mConnector = new Connector();
             mConnector.start();
-        // }
+
+            for (AutoDriveServiceCallback c : mCallbacks) {
+                c.onConnecting();
+            }
+        }
     }
 
     public void startAutoDrive() {
@@ -88,6 +118,10 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     @Override
     public void onLocationChanged(Location location) {
         mLocation = location;
+
+        if (mConnector != null) {
+            mConnector.sendLocation(location);
+        }
     }
 
     @Override
@@ -103,5 +137,23 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
+    }
+
+    @Override
+    public void onInitialize() {
+        for (AutoDriveServiceCallback c : mCallbacks) {
+            c.onInitialized();
+        }
+
+        startAutoDrive();
+    }
+
+    @Override
+    public void onDestroyed() {
+        mConnector = null;
+
+        for (AutoDriveServiceCallback c : mCallbacks) {
+            c.onDisconnected();
+        }
     }
 }
