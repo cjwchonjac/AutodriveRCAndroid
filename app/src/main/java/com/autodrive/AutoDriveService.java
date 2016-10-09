@@ -16,6 +16,8 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import com.autodrive.connector.Connector;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +43,16 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
             connectToHeadUnit();
         }
 
+        public void disconnect() {
+            if (mConnector != null) {
+                mConnector.destroy(true);
+            }
+        }
+
+        public boolean isConnected() {
+            return mConnector != null && mConnector.isConnected();
+        }
+
         public void registerCallback(AutoDriveServiceCallback c) {
             mCallbacks.add(c);
         }
@@ -52,7 +64,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
     public interface AutoDriveServiceCallback {
         public void onConnecting();
-        public void onInitialized();
+        public void onInitialized(BluetoothDevice device);
         public void onDisconnected();
     }
 
@@ -77,7 +89,6 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        connectToHeadUnit();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -92,7 +103,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     public void connectToHeadUnit() {
-        if (mConnector == null) {
+        if (mConnector == null || !mConnector.isConnected()) {
             mConnector = new Connector();
             mConnector.start();
 
@@ -140,9 +151,9 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     @Override
-    public void onInitialize() {
+    public void onInitialize(BluetoothDevice device) {
         for (AutoDriveServiceCallback c : mCallbacks) {
-            c.onInitialized();
+            c.onInitialized(device);
         }
 
         startAutoDrive();

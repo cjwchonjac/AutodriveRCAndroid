@@ -1,4 +1,4 @@
-package com.autodrive;
+package com.autodrive.connector;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -90,17 +90,22 @@ public class Connector {
 
     public static interface Callback {
 
-        public void onInitialize();
+        public void onInitialize(BluetoothDevice device);
 
         public void onDestroyed();
     }
 
     class InitPoster implements Runnable {
+        BluetoothDevice mDevice;
+
+        public InitPoster(BluetoothDevice device) {
+            mDevice = device;
+        }
 
         @Override
         public void run() {
             if (mCallback != null) {
-                mCallback.onInitialize();
+                mCallback.onInitialize(mDevice);
             }
         }
     }
@@ -253,7 +258,7 @@ public class Connector {
                 break;
             case AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE:
                 mInit = true;
-                mHandler.post(new InitPoster());
+                mHandler.post(new InitPoster(mSocket.getRemoteDevice()));
                 break;
             case AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE_FAILED:
                 destroy();
@@ -342,8 +347,8 @@ public class Connector {
         while (!mDestroyed) {
             try {
                 if (mCheckSet.size() > 0) {
-                    // destroy();
-                    // return;
+                    destroy();
+                    return;
                 }
 
                 Log.d("cjw", "Connection Checker doing work");
@@ -380,6 +385,10 @@ public class Connector {
     public void sendData(int seq, int actionCode, byte[] payload) {
         WriteRequest rq = new WriteRequest(seq, actionCode, payload);
         mQ.offer(rq);
+    }
+
+    public boolean isConnected() {
+        return !mDestroyed && mInit;
     }
 
 

@@ -6,5 +6,47 @@
         android:id="@+id/main_bt_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
         android:text="@string/main_button_start"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/main_text_connection"
+        android:id="@+id/main_tv_connection"
+        android:layout_below="@+id/main_bt_start"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_text_search"
+        android:id="@+id/main_button_search"
+        android:layout_alignBottom="@+id/main_edit_text_location"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_edit_text_location"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/main_button_search"
+        android:layout_toStartOf="@+id/main_button_search" />
+
+    <FrameLayout
+        android:id="@+id/main_map_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/main_tv_connection"
+        android:layout_marginTop="16dp"
+        android:layout_above="@+id/main_edit_text_location"></FrameLayout>
+
+
+
 </RelativeLayout>
