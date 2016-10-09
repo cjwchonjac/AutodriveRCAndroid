@@ -47,6 +47,12 @@
         android:layout_marginTop="16dp"
         android:layout_above="@+id/main_edit_text_location"></FrameLayout>
 
+    <ZoomControls
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_zoom_ctrl"
+        android:layout_alignBottom="@id/main_map_container"
+        android:layout_alignRight="@id/main_map_container"/>
 
 
 </RelativeLayout>

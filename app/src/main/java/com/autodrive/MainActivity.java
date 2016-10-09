@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ZoomControls;
 
 import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapMarkerItem;
 import com.skp.Tmap.TMapPOIItem;
 import com.skp.Tmap.TMapPoint;
 import com.skp.Tmap.TMapPolyLine;
@@ -41,9 +44,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
     TextView mConnectionText;
     EditText mLocationEditText;
     TMapView mMapView;
+    ZoomControls mZoomCtrl;
 
     ServiceConnection mConnection;
     AutoDriveService.AutoDriveServiceBinder mBinder;
+
+    TMapPoint mStartPoint;
+    TMapPoint mEndPoint;
 
     class SearchThread extends AsyncTask<String, Void, List<TMapPOIItem>> {
 
@@ -99,6 +106,21 @@ public class MainActivity extends Activity implements View.OnClickListener,
         mLocationEditText = (EditText) findViewById(R.id.main_edit_text_location);
         mLocationEditText.setOnEditorActionListener(this);
 
+        mZoomCtrl = (ZoomControls) findViewById(R.id.main_zoom_ctrl);
+        mZoomCtrl.setOnZoomInClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMapView.setZoomLevel(mMapView.getZoomLevel() + 1);
+            }
+        });
+
+        mZoomCtrl.setOnZoomOutClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMapView.setZoomLevel(mMapView.getZoomLevel() - 1);
+            }
+        });
+
         Intent service = new Intent(this, AutoDriveService.class);
         startService(service);
 
@@ -119,15 +141,48 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
         mMapView = new TMapView(this);
         mMapView.setSKPMapApiKey("6d964526-b31b-3b78-b0e7-80b0cc9c2fee");
+
         mMapView.setOnApiKeyListener(new TMapView.OnApiKeyListenerCallback() {
             @Override
             public void SKPMapApikeySucceed() {
                 Log.d("cjw", "SKPMapApikeySucceed");
+                // Yonsei Univ
+                mMapView.setZoomLevel(16);
             }
 
             @Override
             public void SKPMapApikeyFailed(String s) {
                 Log.d("cjw", "SKPMapApikeyFailed " + s);
+            }
+        });
+
+        mMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                if (mStartPoint != null && mEndPoint != null) {
+                    mMapView.removeAllMarkerItem();
+                    mStartPoint = null;
+                    mEndPoint = null;
+                }
+                if (mStartPoint == null) {
+                    mStartPoint = tMapPoint;
+                    TMapMarkerItem marker = new TMapMarkerItem();
+                    marker.setTMapPoint(tMapPoint);
+                    mMapView.addMarkerItem("start", marker);
+                } else if (mEndPoint == null) {
+                    mEndPoint = tMapPoint;
+                    TMapMarkerItem marker = new TMapMarkerItem();
+                    marker.setTMapPoint(tMapPoint);
+                    mMapView.addMarkerItem("end", marker);
+                }
+
+                Log.d("cjw", "point : " + tMapPoint);
+                return false;
+            }
+
+            @Override
+            public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                return false;
             }
         });
 
@@ -159,7 +214,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
             case R.id.main_button_search:
                 if (mLocationEditText.getText().length() > 0) {
                     new SearchThread().execute(mLocationEditText.getText().toString());
+                } else if (mStartPoint != null && mEndPoint != null) {
+                    searchRoute(mStartPoint, mEndPoint);
                 }
+
                 break;
         }
 
@@ -170,12 +228,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
         return true;
     }
 
-    @Override
-    public void onLocationClicked(TMapPOIItem item) {
-        TMapPoint point1 = mMapView.getLocationPoint();
-
+    void searchRoute(TMapPoint start, TMapPoint end) {
         TMapData data = new TMapData();
-        data.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, point1, item.getPOIPoint(), new TMapData.FindPathDataListenerCallback() {
+        data.findPathDataWithType(TMapData.TMapPathType.BICYCLE_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
                 //mMapView.addTMapPath(polyLine);
@@ -191,6 +246,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 }
             }
         });
+    }
+
+    @Override
+    public void onLocationClicked(TMapPOIItem item) {
+        TMapPoint point1 = mMapView.getLocationPoint();
+        searchRoute(point1, item.getPOIPoint());
     }
 
     @Override
