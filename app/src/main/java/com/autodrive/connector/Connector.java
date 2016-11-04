@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -56,12 +57,13 @@ public class Connector {
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE = 0x10000001;
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE_FAILED = 0x10000002;
 
-    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_SEND_LOCATION_DATA = 0x20000001;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEND_LOCATION_DATA = 0x20000001;
 
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEND_SEGMENT_LIST = 0x30000000;
 
     private static final int READ_BUFFER_SIZE = 1024 * 1024;
 
-    private BluetoothSocket mSocket;
+    private Socket mSocket;
     private BufferedInputStream mInput;
     private BufferedOutputStream mOutput;
 
@@ -87,25 +89,26 @@ public class Connector {
 
     private static final int MAX_TRY_CONNECT_COUNT = 10;
     private static final UUID AUTODRIVE_UUID = UUID.fromString("50038ec2-6485-4a54-a8ee-997d8e1edaa3");
+    private static final String SERVER_ADDR = "40.74.121.179";
 
     public static interface Callback {
 
-        public void onInitialize(BluetoothDevice device);
+        public void onInitialize();
 
         public void onDestroyed();
     }
 
     class InitPoster implements Runnable {
-        BluetoothDevice mDevice;
+        // BluetoothDevice mDevice;
 
-        public InitPoster(BluetoothDevice device) {
-            mDevice = device;
+        public InitPoster() {
+            // mDevice = device;
         }
 
         @Override
         public void run() {
             if (mCallback != null) {
-                mCallback.onInitialize(mDevice);
+                mCallback.onInitialize();
             }
         }
     }
@@ -122,17 +125,28 @@ public class Connector {
     class ConnectorThread extends Thread {
         @Override
         public void run() {
-            BluetoothSocket socket = null;
+            Socket socket = null;
 
             LOOP:
             for (int idx = 0; idx < MAX_TRY_CONNECT_COUNT; idx++) {
-                for (BluetoothDevice device : mAdapter.getBondedDevices()) {
+                try {
+                    socket = new Socket(SERVER_ADDR, 3000);
+                    break;
+                } catch (IOException e) {
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (IOException e1) {
+                        }
+                    }
+                }
+                /* for (BluetoothDevice device : mAdapter.getBondedDevices()) {
 
                     device.fetchUuidsWithSdp();
                     for (ParcelUuid uuid : device.getUuids()) {
-                        // Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID " + uuid.getUuid().toString());
+                        Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID " + uuid.getUuid().toString());
                         if (uuid.getUuid().compareTo(AUTODRIVE_UUID) == 0) {
-                            // Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID matched");
+                            Log.d("cjw", "Bluetooth device name " + device.getName() + " UUID matched");
                             try {
                                 socket = device.createRfcommSocketToServiceRecord(uuid.getUuid());
                                 socket.connect();
@@ -144,21 +158,22 @@ public class Connector {
                                     } catch (IOException e1) {
                                     }
                                 }
-//                                try {
-//                                    socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
-//                                } catch (IllegalAccessException e1) {
-//                                } catch (InvocationTargetException e1) {
-//                                } catch (NoSuchMethodException e1) {
-//                                }
-//                                try {
-//                                    socket.connect();
-//                                } catch (IOException e1) {
-//                                }
-//                                break LOOP;
+                                try {
+                                    socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
+                                } catch (IllegalAccessException e1) {
+                                } catch (InvocationTargetException e1) {
+                                } catch (NoSuchMethodException e1) {
+                                }
+                                try {
+                                    socket.connect();
+                                } catch (IOException e1) {
+                                }
+                                break LOOP;
                             }
                         }
                     }
-                }
+                }*/
+
             }
 
             if (socket != null) {
@@ -181,6 +196,9 @@ public class Connector {
                     Log.d("cjw", "error", e);
                     Connector.this.destroy();
                 }
+            } else {
+                Log.d("cjw", "connection failed");
+                Connector.this.destroy();
             }
         }
     }
@@ -249,6 +267,7 @@ public class Connector {
     }
 
     void handleAction(int seq, int actionCode, byte[] payload, int offset, int length) {
+        Log.d("cjw", "handleAction " + seq + ", " + actionCode);
         ByteArrayInputStream bais;
         switch (actionCode) {
             case AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_PING:
@@ -258,7 +277,7 @@ public class Connector {
                 break;
             case AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE:
                 mInit = true;
-                mHandler.post(new InitPoster(mSocket.getRemoteDevice()));
+                mHandler.post(new InitPoster());
                 break;
             case AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_INITIALIZE_FAILED:
                 destroy();
@@ -351,13 +370,12 @@ public class Connector {
                     return;
                 }
 
-                Log.d("cjw", "Connection Checker doing work");
                 int seq = mSeqInt.getAndIncrement();
                 sendData(seq, AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_PING, null);
                 synchronized (mCheckSet) {
                     mCheckSet.add(seq);
                 }
-                Thread.sleep(1000l);
+                Thread.sleep(10000l);
             } catch (InterruptedException e) {
             }
         }
@@ -448,6 +466,8 @@ public class Connector {
     }
 
     public void sendLocation(Location l) {
+        Log.d("cjw", "sendLocation " + l
+        );
         double lat = l.getLatitude();
         double lng = l.getLongitude();
 
@@ -457,7 +477,17 @@ public class Connector {
         byte[] payload = message.toByteArray();
 
         sendData(mSeqInt.getAndIncrement(),
-                AUTODRIVE_PROTOCOL_ACTION_CODE_SERVER_TO_CLIENT_SEND_LOCATION_DATA,
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEND_LOCATION_DATA,
                 payload);
+    }
+
+    public void sendSegmentList(Autodrive.SegmentList list) {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEND_SEGMENT_LIST,
+                list.toByteArray());
+    }
+
+    public void setCallback(Callback c) {
+        mCallback = c;
     }
 }

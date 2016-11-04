@@ -1,8 +1,6 @@
 package com.autodrive;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,13 +13,13 @@ import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.autodrive.connector.Connector;
+import com.autodrive.message.Autodrive;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by jaewoncho on 2016. 9. 9..
@@ -60,18 +58,26 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
         public void unregisterCallback(AutoDriveServiceCallback c) {
             mCallbacks.remove(c);
         }
+
+        public void sendSegmentList(Autodrive.SegmentList list) {
+            if (mConnector != null) {
+                mConnector.sendSegmentList(list);
+            }
+        }
+
     }
 
     public interface AutoDriveServiceCallback {
         public void onConnecting();
-        public void onInitialized(BluetoothDevice device);
+        public void onInitialized();
         public void onDisconnected();
+        public void onLocationChanged(Location l);
     }
 
 
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new AutoDriveServiceBinder();
     }
 
     @Override
@@ -89,6 +95,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("cjw", "onStartCommnad");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -105,6 +112,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     public void connectToHeadUnit() {
         if (mConnector == null || !mConnector.isConnected()) {
             mConnector = new Connector();
+            mConnector.setCallback(this);
             mConnector.start();
 
             for (AutoDriveServiceCallback c : mCallbacks) {
@@ -119,19 +127,37 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
         String provider = mLocationManager.getBestProvider(criteria, true);
         mLocation = mLocationManager.getLastKnownLocation(provider);
 
-        mLocationManager.requestLocationUpdates(provider, 100l, 1.0f, this);
+        if (mLocation != null) {
+            for (AutoDriveServiceCallback c : mCallbacks) {
+                c.onLocationChanged(mLocation);
+            }
+        }
+
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100l, 1.0f, this);
+
+        sendCurrentLocation();
     }
 
     public void finishAutoDrive() {
         mLocationManager.removeUpdates(this);
     }
 
+    public void sendCurrentLocation() {
+        if (mConnector != null && mLocation != null) {
+            mConnector.sendLocation(mLocation);
+        }
+    }
+
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("cjw", "onLocationChanged " + location);
         mLocation = location;
+        sendCurrentLocation();
 
-        if (mConnector != null) {
-            mConnector.sendLocation(location);
+        if (location != null) {
+            for (AutoDriveServiceCallback c : mCallbacks) {
+                c.onLocationChanged(location);
+            }
         }
     }
 
@@ -151,9 +177,9 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     @Override
-    public void onInitialize(BluetoothDevice device) {
+    public void onInitialize() {
         for (AutoDriveServiceCallback c : mCallbacks) {
-            c.onInitialized(device);
+            c.onInitialized();
         }
 
         startAutoDrive();
@@ -162,6 +188,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     @Override
     public void onDestroyed() {
         mConnector = null;
+
+        finishAutoDrive();
 
         for (AutoDriveServiceCallback c : mCallbacks) {
             c.onDisconnected();

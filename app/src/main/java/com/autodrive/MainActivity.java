@@ -6,8 +6,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.PointF;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ZoomControls;
 
+import com.autodrive.message.Autodrive;
 import com.skp.Tmap.TMapData;
 import com.skp.Tmap.TMapMarkerItem;
 import com.skp.Tmap.TMapPOIItem;
@@ -46,11 +50,22 @@ public class MainActivity extends Activity implements View.OnClickListener,
     TMapView mMapView;
     ZoomControls mZoomCtrl;
 
+    Location mLocation;
+    boolean mTracking = true;
+    Runnable mTracker = new Runnable() {
+        @Override
+        public void run() {
+            mTracking = true;
+        }
+    };
+
     ServiceConnection mConnection;
     AutoDriveService.AutoDriveServiceBinder mBinder;
 
     TMapPoint mStartPoint;
     TMapPoint mEndPoint;
+
+    Handler mHandler = new Handler();
 
     class SearchThread extends AsyncTask<String, Void, List<TMapPOIItem>> {
 
@@ -129,6 +144,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mBinder = (AutoDriveService.AutoDriveServiceBinder) service;
                 mBinder.registerCallback(MainActivity.this);
+
             }
 
             @Override
@@ -159,7 +175,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
         mMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                if (mStartPoint != null && mEndPoint != null) {
+                mTracking = false;
+
+                /*if (mStartPoint != null && mEndPoint != null) {
                     mMapView.removeAllMarkerItem();
                     mStartPoint = null;
                     mEndPoint = null;
@@ -174,7 +192,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
                     TMapMarkerItem marker = new TMapMarkerItem();
                     marker.setTMapPoint(tMapPoint);
                     mMapView.addMarkerItem("end", marker);
-                }
+                }*/
 
                 Log.d("cjw", "point : " + tMapPoint);
                 return false;
@@ -182,6 +200,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
             @Override
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                mHandler.removeCallbacks(mTracker);
+                mHandler.postDelayed(mTracker, 5000l);
+
+                mEndPoint = tMapPoint;
+                TMapMarkerItem marker = new TMapMarkerItem();
+                marker.setTMapPoint(tMapPoint);
+                mMapView.addMarkerItem("end", marker);
                 return false;
             }
         });
@@ -212,9 +237,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 mBinder.connect();
                 break;
             case R.id.main_button_search:
-                if (mLocationEditText.getText().length() > 0) {
+                /*if (mLocationEditText.getText().length() > 0) {
                     new SearchThread().execute(mLocationEditText.getText().toString());
-                } else if (mStartPoint != null && mEndPoint != null) {
+                } else */
+                if (mStartPoint != null && mEndPoint != null) {
                     searchRoute(mStartPoint, mEndPoint);
                 }
 
@@ -239,10 +265,19 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
                 mMapView.removeAllTMapPolyLine();
                 mMapView.addTMapPath(polyLine);
+
+                Autodrive.SegmentList.Builder builder = Autodrive.SegmentList.newBuilder();
                 for (int i = 0; i < path.size(); ++i) {
                     TMapPoint dat = path.get(i);
-                    Log.d("tag", "lat : " + dat.getLatitude() + " lng : " + dat.getLongitude());
 
+                    Autodrive.LocationMessage message = Autodrive.LocationMessage.newBuilder().
+                            setLatitude(dat.getLatitude()).setLongitude(dat.getLongitude()).build();
+                    builder.addLocations(message);
+                    Log.d("tag", "lat : " + dat.getLatitude() + " lng : " + dat.getLongitude());
+                }
+
+                if (mBinder != null) {
+                    mBinder.sendSegmentList(builder.build());
                 }
             }
         });
@@ -260,12 +295,33 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void onInitialized(BluetoothDevice device) {
-        mConnectionText.setText(getString(R.string.main_text_initialized, device.getName()));
+    public void onInitialized() {
+        mLocation = null;
+        mConnectionText.setText(getString(R.string.main_text_initialized, "SERVER"));
     }
 
     @Override
     public void onDisconnected() {
         mConnectionText.setText(R.string.main_text_connection);
+    }
+
+    @Override
+    public void onLocationChanged(Location l) {
+        mLocation = l;
+
+        if (mStartPoint == null) {
+            mStartPoint = new TMapPoint(l.getLatitude(), l.getLongitude());
+        } else {
+            mStartPoint.setLatitude(l.getLatitude());
+            mStartPoint.setLongitude(l.getLongitude());
+        }
+
+        TMapMarkerItem marker = new TMapMarkerItem();
+        marker.setTMapPoint(mStartPoint);
+        mMapView.addMarkerItem("start", marker);
+
+        if (mTracking) {
+            mMapView.setCenterPoint(l.getLatitude(), l.getLongitude());
+        }
     }
 }

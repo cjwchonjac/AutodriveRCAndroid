@@ -6,3 +6,7 @@ message LocationMessage {
   required double latitude = 1;
   required double longitude = 2;
 }
+
+message SegmentList {
+  repeated LocationMessage locations = 1;
+}
