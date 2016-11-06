@@ -110,6 +110,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     }
 
     public void connectToHeadUnit() {
+        startAutoDrive();
+
         if (mConnector == null || !mConnector.isConnected()) {
             mConnector = new Connector();
             mConnector.setCallback(this);

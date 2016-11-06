@@ -308,7 +308,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onLocationChanged(Location l) {
         mLocation = l;
-
+        Log.d("cjw", "Main " +  l.toString());
         if (mStartPoint == null) {
             mStartPoint = new TMapPoint(l.getLatitude(), l.getLongitude());
         } else {
@@ -321,7 +321,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
         mMapView.addMarkerItem("start", marker);
 
         if (mTracking) {
-            mMapView.setCenterPoint(l.getLatitude(), l.getLongitude());
+            // mMapView.setCenterPoint(l.getLatitude(), l.getLongitude());
         }
     }
 }
