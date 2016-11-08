@@ -45,7 +45,18 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/main_tv_connection"
         android:layout_marginTop="16dp"
-        android:layout_above="@+id/main_edit_text_location"></FrameLayout>
+        android:layout_above="@+id/main_edit_text_location">
+
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_alignTop="@id/main_map_container"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:id="@+id/main_status_text" />
 
     <ZoomControls
         android:layout_width="wrap_content"

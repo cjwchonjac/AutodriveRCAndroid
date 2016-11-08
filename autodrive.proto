@@ -10,3 +10,8 @@ message LocationMessage {
 message SegmentList {
   repeated LocationMessage locations = 1;
 }
+
+message SegmentArrived {
+  int32 index = 1;
+  double angle = 2;
+}
