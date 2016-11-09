@@ -64,6 +64,9 @@ public class Connector {
 
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_DESTINATION_ARRIVED = 0x40000000;
 
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_START = 0x50000000;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_END = 0x50000001;
+
     private static final int READ_BUFFER_SIZE = 1024 * 1024;
 
     private Socket mSocket;
@@ -488,6 +491,30 @@ public class Connector {
         sendData(mSeqInt.getAndIncrement(),
                 AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEND_SEGMENT_LIST,
                 list.toByteArray());
+    }
+
+    public void sendSegmentArrived(Autodrive.SegmentArrived arrived) {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_SEGMENT_ARRIVED,
+                arrived.toByteArray());
+    }
+
+    public void sendDestinationArrived() {
+        sendData(mSeqInt.getAndDecrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_DESTINATION_ARRIVED,
+                null);
+    }
+
+    public void sendDriveStart() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_START,
+                null);
+    }
+
+    public void sendDriveEnd() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_END,
+                null);
     }
 
     public void setCallback(Callback c) {

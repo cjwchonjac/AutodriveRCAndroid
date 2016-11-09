@@ -19,6 +19,7 @@ import android.util.Log;
 import com.autodrive.connector.Connector;
 import com.autodrive.message.Autodrive;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,15 +35,11 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     private LocationManager mLocationManager;
     private Location mLocation;
 
-    double mLastLat;
-    double mLastLng;
-    int mLastSeg;
-
     private Connector mConnector;
 
+    int mLastSeg;
     private  Autodrive.SegmentList mList;
     Set<AutoDriveServiceCallback> mCallbacks;
-    int currentSeg;
 
     Handler handler;
 
@@ -79,12 +76,23 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
         public void sendSegmentList(Autodrive.SegmentList list) {
             mList = list;
-            mLastLng = -1.0;
-            mLastLat = -1.0;
             mLastSeg = -1;
 
             if (mConnector != null) {
                 mConnector.sendSegmentList(list);
+            }
+        }
+
+        public void sendDriveStart() {
+            if (mConnector != null) {
+                mConnector.sendDriveStart();
+            }
+        }
+
+        public void sendDriveEnd() {
+            clearDriveData();
+            if (mConnector != null) {
+                mConnector.sendDriveEnd();
             }
         }
 
@@ -106,6 +114,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
         public void onDisconnected();
         public void onLocationChanged(Location l);
         public void onRequestPrintLog(String str);
+        public void onPointOnSegementCalcuated(double oLat, double oLng, double pLat, double pLng);
     }
 
 
@@ -173,14 +182,21 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
         }
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100l, 1.0f, this);
-
         sendCurrentLocation();
     }
 
+    public void clearDriveData() {
+        mLastSeg = -1;
+        mList = null;
+    }
+
     public void finishAutoDrive() {
+        clearDriveData();
         mLocationManager.removeUpdates(this);
 
-        mConnector.destroy();
+        if (mConnector != null) {
+            mConnector.destroy();
+        }
     }
 
     public void sendCurrentLocation() {
@@ -221,6 +237,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
             int seg = -1;
             final int N = messages.size();
             double min = Double.MAX_VALUE;
+
+            List<double[]> datas = new ArrayList<>();
             for (int idx = 0; idx < N - 1; idx++) {
                 // get point on line segment
                 Autodrive.LocationMessage current = messages.get(idx);
@@ -237,6 +255,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
                 boolean in = Util.pointInLineSeg(x1, y1, x2, y2, p[0], p[1]);
                 double distance = Util.dist(p[1], p[0], mLocation.getLatitude(), mLocation.getLongitude());
 
+                datas.add(p);
+
                 if (in && distance < min) {
                     min = distance;
                     seg = idx;
@@ -244,7 +264,6 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
             }
 
             if (seg >= 0 && seg < N - 1) {
-
                 Autodrive.LocationMessage current = messages.get(seg);
                 Autodrive.LocationMessage next = messages.get(seg + 1);
                 double y1 = current.getLatitude();
@@ -252,12 +271,16 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
                 double y2 = next.getLatitude();
                 double x2 = next.getLongitude();
 
-                double[] p = new double[2];
-                Util.pointOnLine(x1, y1, x2, y2, mLocation.getLongitude(), mLocation.getLatitude(), p);
-
+                double[] p = datas.get(seg);
                 double d = Util.dist(p[1], p[0], y2, x2);
                 Log.d("cjw", "in segment " + seg + " - " + (seg + 1) +  " check distance " + d);
-                if (d < 10.0) {
+
+                for (AutoDriveServiceCallback c : mCallbacks) {
+                    c.onPointOnSegementCalcuated(mLocation.getLatitude(), mLocation.getLongitude(),
+                            p[1], p[0]);
+                }
+
+                if (d < 5.0) {
                     // arrived at next segment
                     if (mLastSeg != seg) {
                         mLastSeg = seg;
@@ -273,6 +296,12 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
                             double det = vx1 * vy2 - vy1 * vx2;
                             double angle = Math.atan2(det, dot) * 180.0 / Math.PI;
 
+                            if (mConnector != null) {
+                                Autodrive.SegmentArrived arrived =
+                                        Autodrive.SegmentArrived.newBuilder().
+                                                setAngle(angle).setIndex(seg).build();
+                                mConnector.sendSegmentArrived(arrived);
+                            }
 
                             for (AutoDriveServiceCallback c : mCallbacks) {
                                 c.onRequestPrintLog("arrived at segment " + (seg + 1) + " next angle " + angle);
@@ -280,6 +309,10 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
                             // Log.d("cjw", "arrived at segment " + (idx + 1) + " next angle " + angle);
                         } else {
                             // finish driving
+                            if (mConnector != null) {
+                                mConnector.sendDestinationArrived();
+                            }
+
                             for (AutoDriveServiceCallback c : mCallbacks) {
                                 c.onRequestPrintLog("finish driving");
                             }

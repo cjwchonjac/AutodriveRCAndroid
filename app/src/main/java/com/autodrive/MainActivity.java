@@ -55,6 +55,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
         LocationListDialog.OnLocationClickListener {
 
     Button mButton;
+    Button mDriveStartButton;
+    Button mDriveEndButton;
     TextView mConnectionText;
     TextView mStatusText;
     EditText mLocationEditText;
@@ -77,6 +79,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     TMapPoint mStartPoint;
     TMapPoint mEndPoint;
+
+    PointF mTouchDown;
 
     Handler mHandler = new Handler();
     /**
@@ -165,6 +169,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        mDriveStartButton = (Button) findViewById(R.id.main_bt_drive_start);
+        mDriveStartButton.setOnClickListener(this);
+
+        mDriveEndButton = (Button) findViewById(R.id.main_bt_drive_end);
+        mDriveEndButton.setOnClickListener(this);
+
         mButton = (Button) findViewById(R.id.main_bt_start);
         mButton.setOnClickListener(this);
 
@@ -242,7 +252,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
                 mTracking = false;
-
+                mTouchDown = pointF;
                 /*if (mStartPoint != null && mEndPoint != null) {
                     mMapView.removeAllMarkerItem();
                     mStartPoint = null;
@@ -266,14 +276,15 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
             @Override
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                mHandler.removeCallbacks(mTracker);
-                mHandler.postDelayed(mTracker, 5000l);
+                if (Math.abs(pointF.x - mTouchDown.x) < 10.0 &&  Math.abs(pointF.y - mTouchDown.y) < 10) {
+                    mHandler.removeCallbacks(mTracker);
+                    mHandler.postDelayed(mTracker, 5000l);
 
-                mEndPoint = tMapPoint;
-                TMapMarkerItem marker = new TMapMarkerItem();
-                marker.setTMapPoint(tMapPoint);
-                mMapView.addMarkerItem("end", marker);
-
+                    mEndPoint = tMapPoint;
+                    TMapMarkerItem marker = new TMapMarkerItem();
+                    marker.setTMapPoint(tMapPoint);
+                    mMapView.addMarkerItem("end", marker);
+                }
 
                 return false;
             }
@@ -305,6 +316,21 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.main_bt_drive_start:
+                if (mBinder != null) {
+                    mBinder.sendDriveStart();
+                }
+                break;
+            case R.id.main_bt_drive_end:
+                if (mBinder != null) {
+                    mBinder.sendDriveEnd();
+                }
+
+                mMapView.removeAllTMapPolyLine();
+                mMapView.removeAllMarkerItem();
+                mMapView.removeTMapPath();
+                markers.clear();
+                break;
             case R.id.main_bt_start:
                 mBinder.connect();
                 break;
@@ -436,5 +462,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
     public void onRequestPrintLog(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         mStatusText.setText(str);
+    }
+
+    @Override
+    public void onPointOnSegementCalcuated(double oLat, double oLng, double pLat, double pLng) {
+        TMapPolyLine line = new TMapPolyLine();
+        line.addLinePoint(new TMapPoint(oLat, oLng));
+        line.addLinePoint(new TMapPoint(pLat, pLng));
+        mMapView.addTMapPolyLine("vertical", line);
     }
 }

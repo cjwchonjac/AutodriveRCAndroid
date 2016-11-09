@@ -12,6 +12,6 @@ message SegmentList {
 }
 
 message SegmentArrived {
-  int32 index = 1;
-  double angle = 2;
+  required int32 index = 1;
+  required double angle = 2;
 }

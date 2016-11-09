@@ -54,7 +54,7 @@ public final class Autodrive {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -106,14 +106,14 @@ public final class Autodrive {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
     }
 
-    protected FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Autodrive.internal_static_com_autodrive_message_LocationMessage_fieldAccessorTable
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_LocationMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              LocationMessage.class, Builder.class);
+              com.autodrive.message.Autodrive.LocationMessage.class, com.autodrive.message.Autodrive.LocationMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<LocationMessage> PARSER =
@@ -126,7 +126,7 @@ public final class Autodrive {
       }
     };
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<LocationMessage> getParserForType() {
       return PARSER;
     }
@@ -216,59 +216,59 @@ public final class Autodrive {
     }
 
     private static final long serialVersionUID = 0L;
-    @Override
-    protected Object writeReplace()
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static LocationMessage parseFrom(byte[] data)
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static LocationMessage parseFrom(java.io.InputStream input)
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static LocationMessage parseDelimitedFrom(java.io.InputStream input)
+    public static com.autodrive.message.Autodrive.LocationMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static LocationMessage parseDelimitedFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static LocationMessage parseFrom(
+    public static com.autodrive.message.Autodrive.LocationMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -277,14 +277,14 @@ public final class Autodrive {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(LocationMessage prototype) {
+    public static Builder newBuilder(com.autodrive.message.Autodrive.LocationMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-        BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -294,17 +294,17 @@ public final class Autodrive {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:com.autodrive.message.LocationMessage)
-        LocationMessageOrBuilder {
+        com.autodrive.message.Autodrive.LocationMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
       }
 
-      protected FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return Autodrive.internal_static_com_autodrive_message_LocationMessage_fieldAccessorTable
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_LocationMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                LocationMessage.class, Builder.class);
+                com.autodrive.message.Autodrive.LocationMessage.class, com.autodrive.message.Autodrive.LocationMessage.Builder.class);
       }
 
       // Construct using com.autodrive.message.Autodrive.LocationMessage.newBuilder()
@@ -313,7 +313,7 @@ public final class Autodrive {
       }
 
       private Builder(
-          BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
@@ -340,23 +340,23 @@ public final class Autodrive {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_LocationMessage_descriptor;
       }
 
-      public LocationMessage getDefaultInstanceForType() {
-        return LocationMessage.getDefaultInstance();
+      public com.autodrive.message.Autodrive.LocationMessage getDefaultInstanceForType() {
+        return com.autodrive.message.Autodrive.LocationMessage.getDefaultInstance();
       }
 
-      public LocationMessage build() {
-        LocationMessage result = buildPartial();
+      public com.autodrive.message.Autodrive.LocationMessage build() {
+        com.autodrive.message.Autodrive.LocationMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public LocationMessage buildPartial() {
-        LocationMessage result = new LocationMessage(this);
+      public com.autodrive.message.Autodrive.LocationMessage buildPartial() {
+        com.autodrive.message.Autodrive.LocationMessage result = new com.autodrive.message.Autodrive.LocationMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -373,16 +373,16 @@ public final class Autodrive {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof LocationMessage) {
-          return mergeFrom((LocationMessage)other);
+        if (other instanceof com.autodrive.message.Autodrive.LocationMessage) {
+          return mergeFrom((com.autodrive.message.Autodrive.LocationMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(LocationMessage other) {
-        if (other == LocationMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.autodrive.message.Autodrive.LocationMessage other) {
+        if (other == com.autodrive.message.Autodrive.LocationMessage.getDefaultInstance()) return this;
         if (other.hasLatitude()) {
           setLatitude(other.getLatitude());
         }
@@ -409,11 +409,11 @@ public final class Autodrive {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        LocationMessage parsedMessage = null;
+        com.autodrive.message.Autodrive.LocationMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (LocationMessage) e.getUnfinishedMessage();
+          parsedMessage = (com.autodrive.message.Autodrive.LocationMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -506,12 +506,12 @@ public final class Autodrive {
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    java.util.List<LocationMessage>
+    java.util.List<com.autodrive.message.Autodrive.LocationMessage> 
         getLocationsList();
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    LocationMessage getLocations(int index);
+    com.autodrive.message.Autodrive.LocationMessage getLocations(int index);
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
@@ -519,13 +519,13 @@ public final class Autodrive {
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    java.util.List<? extends LocationMessageOrBuilder>
+    java.util.List<? extends com.autodrive.message.Autodrive.LocationMessageOrBuilder> 
         getLocationsOrBuilderList();
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    LocationMessageOrBuilder getLocationsOrBuilder(
-            int index);
+    com.autodrive.message.Autodrive.LocationMessageOrBuilder getLocationsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code com.autodrive.message.SegmentList}
@@ -551,7 +551,7 @@ public final class Autodrive {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -581,10 +581,10 @@ public final class Autodrive {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                locations_ = new java.util.ArrayList<LocationMessage>();
+                locations_ = new java.util.ArrayList<com.autodrive.message.Autodrive.LocationMessage>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              locations_.add(input.readMessage(LocationMessage.PARSER, extensionRegistry));
+              locations_.add(input.readMessage(com.autodrive.message.Autodrive.LocationMessage.PARSER, extensionRegistry));
               break;
             }
           }
@@ -604,14 +604,14 @@ public final class Autodrive {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
     }
 
-    protected FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Autodrive.internal_static_com_autodrive_message_SegmentList_fieldAccessorTable
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentList_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              SegmentList.class, Builder.class);
+              com.autodrive.message.Autodrive.SegmentList.class, com.autodrive.message.Autodrive.SegmentList.Builder.class);
     }
 
     public static com.google.protobuf.Parser<SegmentList> PARSER =
@@ -624,23 +624,23 @@ public final class Autodrive {
       }
     };
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<SegmentList> getParserForType() {
       return PARSER;
     }
 
     public static final int LOCATIONS_FIELD_NUMBER = 1;
-    private java.util.List<LocationMessage> locations_;
+    private java.util.List<com.autodrive.message.Autodrive.LocationMessage> locations_;
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    public java.util.List<LocationMessage> getLocationsList() {
+    public java.util.List<com.autodrive.message.Autodrive.LocationMessage> getLocationsList() {
       return locations_;
     }
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    public java.util.List<? extends LocationMessageOrBuilder>
+    public java.util.List<? extends com.autodrive.message.Autodrive.LocationMessageOrBuilder> 
         getLocationsOrBuilderList() {
       return locations_;
     }
@@ -653,13 +653,13 @@ public final class Autodrive {
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    public LocationMessage getLocations(int index) {
+    public com.autodrive.message.Autodrive.LocationMessage getLocations(int index) {
       return locations_.get(index);
     }
     /**
      * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
      */
-    public LocationMessageOrBuilder getLocationsOrBuilder(
+    public com.autodrive.message.Autodrive.LocationMessageOrBuilder getLocationsOrBuilder(
         int index) {
       return locations_.get(index);
     }
@@ -708,59 +708,59 @@ public final class Autodrive {
     }
 
     private static final long serialVersionUID = 0L;
-    @Override
-    protected Object writeReplace()
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static SegmentList parseFrom(byte[] data)
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static SegmentList parseFrom(java.io.InputStream input)
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static SegmentList parseDelimitedFrom(java.io.InputStream input)
+    public static com.autodrive.message.Autodrive.SegmentList parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static SegmentList parseDelimitedFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static SegmentList parseFrom(
+    public static com.autodrive.message.Autodrive.SegmentList parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -769,14 +769,14 @@ public final class Autodrive {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(SegmentList prototype) {
+    public static Builder newBuilder(com.autodrive.message.Autodrive.SegmentList prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-        BuilderParent parent) {
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -786,17 +786,17 @@ public final class Autodrive {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:com.autodrive.message.SegmentList)
-        SegmentListOrBuilder {
+        com.autodrive.message.Autodrive.SegmentListOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
       }
 
-      protected FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return Autodrive.internal_static_com_autodrive_message_SegmentList_fieldAccessorTable
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentList_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                SegmentList.class, Builder.class);
+                com.autodrive.message.Autodrive.SegmentList.class, com.autodrive.message.Autodrive.SegmentList.Builder.class);
       }
 
       // Construct using com.autodrive.message.Autodrive.SegmentList.newBuilder()
@@ -805,7 +805,7 @@ public final class Autodrive {
       }
 
       private Builder(
-          BuilderParent parent) {
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
@@ -835,23 +835,23 @@ public final class Autodrive {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentList_descriptor;
       }
 
-      public SegmentList getDefaultInstanceForType() {
-        return SegmentList.getDefaultInstance();
+      public com.autodrive.message.Autodrive.SegmentList getDefaultInstanceForType() {
+        return com.autodrive.message.Autodrive.SegmentList.getDefaultInstance();
       }
 
-      public SegmentList build() {
-        SegmentList result = buildPartial();
+      public com.autodrive.message.Autodrive.SegmentList build() {
+        com.autodrive.message.Autodrive.SegmentList result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public SegmentList buildPartial() {
-        SegmentList result = new SegmentList(this);
+      public com.autodrive.message.Autodrive.SegmentList buildPartial() {
+        com.autodrive.message.Autodrive.SegmentList result = new com.autodrive.message.Autodrive.SegmentList(this);
         int from_bitField0_ = bitField0_;
         if (locationsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -867,16 +867,16 @@ public final class Autodrive {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof SegmentList) {
-          return mergeFrom((SegmentList)other);
+        if (other instanceof com.autodrive.message.Autodrive.SegmentList) {
+          return mergeFrom((com.autodrive.message.Autodrive.SegmentList)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(SegmentList other) {
-        if (other == SegmentList.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.autodrive.message.Autodrive.SegmentList other) {
+        if (other == com.autodrive.message.Autodrive.SegmentList.getDefaultInstance()) return this;
         if (locationsBuilder_ == null) {
           if (!other.locations_.isEmpty()) {
             if (locations_.isEmpty()) {
@@ -921,11 +921,11 @@ public final class Autodrive {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        SegmentList parsedMessage = null;
+        com.autodrive.message.Autodrive.SegmentList parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (SegmentList) e.getUnfinishedMessage();
+          parsedMessage = (com.autodrive.message.Autodrive.SegmentList) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -936,22 +936,22 @@ public final class Autodrive {
       }
       private int bitField0_;
 
-      private java.util.List<LocationMessage> locations_ =
+      private java.util.List<com.autodrive.message.Autodrive.LocationMessage> locations_ =
         java.util.Collections.emptyList();
       private void ensureLocationsIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          locations_ = new java.util.ArrayList<LocationMessage>(locations_);
+          locations_ = new java.util.ArrayList<com.autodrive.message.Autodrive.LocationMessage>(locations_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          LocationMessage, LocationMessage.Builder, LocationMessageOrBuilder> locationsBuilder_;
+          com.autodrive.message.Autodrive.LocationMessage, com.autodrive.message.Autodrive.LocationMessage.Builder, com.autodrive.message.Autodrive.LocationMessageOrBuilder> locationsBuilder_;
 
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public java.util.List<LocationMessage> getLocationsList() {
+      public java.util.List<com.autodrive.message.Autodrive.LocationMessage> getLocationsList() {
         if (locationsBuilder_ == null) {
           return java.util.Collections.unmodifiableList(locations_);
         } else {
@@ -971,7 +971,7 @@ public final class Autodrive {
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public LocationMessage getLocations(int index) {
+      public com.autodrive.message.Autodrive.LocationMessage getLocations(int index) {
         if (locationsBuilder_ == null) {
           return locations_.get(index);
         } else {
@@ -982,7 +982,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder setLocations(
-          int index, LocationMessage value) {
+          int index, com.autodrive.message.Autodrive.LocationMessage value) {
         if (locationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -999,7 +999,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder setLocations(
-          int index, LocationMessage.Builder builderForValue) {
+          int index, com.autodrive.message.Autodrive.LocationMessage.Builder builderForValue) {
         if (locationsBuilder_ == null) {
           ensureLocationsIsMutable();
           locations_.set(index, builderForValue.build());
@@ -1012,7 +1012,7 @@ public final class Autodrive {
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public Builder addLocations(LocationMessage value) {
+      public Builder addLocations(com.autodrive.message.Autodrive.LocationMessage value) {
         if (locationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1029,7 +1029,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder addLocations(
-          int index, LocationMessage value) {
+          int index, com.autodrive.message.Autodrive.LocationMessage value) {
         if (locationsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1046,7 +1046,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder addLocations(
-          LocationMessage.Builder builderForValue) {
+          com.autodrive.message.Autodrive.LocationMessage.Builder builderForValue) {
         if (locationsBuilder_ == null) {
           ensureLocationsIsMutable();
           locations_.add(builderForValue.build());
@@ -1060,7 +1060,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder addLocations(
-          int index, LocationMessage.Builder builderForValue) {
+          int index, com.autodrive.message.Autodrive.LocationMessage.Builder builderForValue) {
         if (locationsBuilder_ == null) {
           ensureLocationsIsMutable();
           locations_.add(index, builderForValue.build());
@@ -1074,7 +1074,7 @@ public final class Autodrive {
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
       public Builder addAllLocations(
-          Iterable<? extends LocationMessage> values) {
+          java.lang.Iterable<? extends com.autodrive.message.Autodrive.LocationMessage> values) {
         if (locationsBuilder_ == null) {
           ensureLocationsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1114,14 +1114,14 @@ public final class Autodrive {
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public LocationMessage.Builder getLocationsBuilder(
+      public com.autodrive.message.Autodrive.LocationMessage.Builder getLocationsBuilder(
           int index) {
         return getLocationsFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public LocationMessageOrBuilder getLocationsOrBuilder(
+      public com.autodrive.message.Autodrive.LocationMessageOrBuilder getLocationsOrBuilder(
           int index) {
         if (locationsBuilder_ == null) {
           return locations_.get(index);  } else {
@@ -1131,7 +1131,7 @@ public final class Autodrive {
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public java.util.List<? extends LocationMessageOrBuilder>
+      public java.util.List<? extends com.autodrive.message.Autodrive.LocationMessageOrBuilder> 
            getLocationsOrBuilderList() {
         if (locationsBuilder_ != null) {
           return locationsBuilder_.getMessageOrBuilderList();
@@ -1142,31 +1142,31 @@ public final class Autodrive {
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public LocationMessage.Builder addLocationsBuilder() {
+      public com.autodrive.message.Autodrive.LocationMessage.Builder addLocationsBuilder() {
         return getLocationsFieldBuilder().addBuilder(
-            LocationMessage.getDefaultInstance());
+            com.autodrive.message.Autodrive.LocationMessage.getDefaultInstance());
       }
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public LocationMessage.Builder addLocationsBuilder(
+      public com.autodrive.message.Autodrive.LocationMessage.Builder addLocationsBuilder(
           int index) {
         return getLocationsFieldBuilder().addBuilder(
-            index, LocationMessage.getDefaultInstance());
+            index, com.autodrive.message.Autodrive.LocationMessage.getDefaultInstance());
       }
       /**
        * <code>repeated .com.autodrive.message.LocationMessage locations = 1;</code>
        */
-      public java.util.List<LocationMessage.Builder>
+      public java.util.List<com.autodrive.message.Autodrive.LocationMessage.Builder> 
            getLocationsBuilderList() {
         return getLocationsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          LocationMessage, LocationMessage.Builder, LocationMessageOrBuilder>
+          com.autodrive.message.Autodrive.LocationMessage, com.autodrive.message.Autodrive.LocationMessage.Builder, com.autodrive.message.Autodrive.LocationMessageOrBuilder> 
           getLocationsFieldBuilder() {
         if (locationsBuilder_ == null) {
           locationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              LocationMessage, LocationMessage.Builder, LocationMessageOrBuilder>(
+              com.autodrive.message.Autodrive.LocationMessage, com.autodrive.message.Autodrive.LocationMessage.Builder, com.autodrive.message.Autodrive.LocationMessageOrBuilder>(
                   locations_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -1187,6 +1187,497 @@ public final class Autodrive {
     // @@protoc_insertion_point(class_scope:com.autodrive.message.SegmentList)
   }
 
+  public interface SegmentArrivedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.autodrive.message.SegmentArrived)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 index = 1;</code>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required int32 index = 1;</code>
+     */
+    int getIndex();
+
+    /**
+     * <code>required double angle = 2;</code>
+     */
+    boolean hasAngle();
+    /**
+     * <code>required double angle = 2;</code>
+     */
+    double getAngle();
+  }
+  /**
+   * Protobuf type {@code com.autodrive.message.SegmentArrived}
+   */
+  public static final class SegmentArrived extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.autodrive.message.SegmentArrived)
+      SegmentArrivedOrBuilder {
+    // Use SegmentArrived.newBuilder() to construct.
+    private SegmentArrived(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SegmentArrived(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SegmentArrived defaultInstance;
+    public static SegmentArrived getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SegmentArrived getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SegmentArrived(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              index_ = input.readInt32();
+              break;
+            }
+            case 17: {
+              bitField0_ |= 0x00000002;
+              angle_ = input.readDouble();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentArrived_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentArrived_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.autodrive.message.Autodrive.SegmentArrived.class, com.autodrive.message.Autodrive.SegmentArrived.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SegmentArrived> PARSER =
+        new com.google.protobuf.AbstractParser<SegmentArrived>() {
+      public SegmentArrived parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SegmentArrived(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SegmentArrived> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private int index_;
+    /**
+     * <code>required int32 index = 1;</code>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 index = 1;</code>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    public static final int ANGLE_FIELD_NUMBER = 2;
+    private double angle_;
+    /**
+     * <code>required double angle = 2;</code>
+     */
+    public boolean hasAngle() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required double angle = 2;</code>
+     */
+    public double getAngle() {
+      return angle_;
+    }
+
+    private void initFields() {
+      index_ = 0;
+      angle_ = 0D;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAngle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeDouble(2, angle_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, angle_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.autodrive.message.Autodrive.SegmentArrived parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.autodrive.message.Autodrive.SegmentArrived prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.autodrive.message.SegmentArrived}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.autodrive.message.SegmentArrived)
+        com.autodrive.message.Autodrive.SegmentArrivedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentArrived_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentArrived_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.autodrive.message.Autodrive.SegmentArrived.class, com.autodrive.message.Autodrive.SegmentArrived.Builder.class);
+      }
+
+      // Construct using com.autodrive.message.Autodrive.SegmentArrived.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        index_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        angle_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.autodrive.message.Autodrive.internal_static_com_autodrive_message_SegmentArrived_descriptor;
+      }
+
+      public com.autodrive.message.Autodrive.SegmentArrived getDefaultInstanceForType() {
+        return com.autodrive.message.Autodrive.SegmentArrived.getDefaultInstance();
+      }
+
+      public com.autodrive.message.Autodrive.SegmentArrived build() {
+        com.autodrive.message.Autodrive.SegmentArrived result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.autodrive.message.Autodrive.SegmentArrived buildPartial() {
+        com.autodrive.message.Autodrive.SegmentArrived result = new com.autodrive.message.Autodrive.SegmentArrived(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.angle_ = angle_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.autodrive.message.Autodrive.SegmentArrived) {
+          return mergeFrom((com.autodrive.message.Autodrive.SegmentArrived)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.autodrive.message.Autodrive.SegmentArrived other) {
+        if (other == com.autodrive.message.Autodrive.SegmentArrived.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        if (other.hasAngle()) {
+          setAngle(other.getAngle());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        if (!hasAngle()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.autodrive.message.Autodrive.SegmentArrived parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.autodrive.message.Autodrive.SegmentArrived) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int index_ ;
+      /**
+       * <code>required int32 index = 1;</code>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double angle_ ;
+      /**
+       * <code>required double angle = 2;</code>
+       */
+      public boolean hasAngle() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required double angle = 2;</code>
+       */
+      public double getAngle() {
+        return angle_;
+      }
+      /**
+       * <code>required double angle = 2;</code>
+       */
+      public Builder setAngle(double value) {
+        bitField0_ |= 0x00000002;
+        angle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double angle = 2;</code>
+       */
+      public Builder clearAngle() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        angle_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.autodrive.message.SegmentArrived)
+    }
+
+    static {
+      defaultInstance = new SegmentArrived(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.autodrive.message.SegmentArrived)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_autodrive_message_LocationMessage_descriptor;
   private static
@@ -1197,6 +1688,11 @@ public final class Autodrive {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_autodrive_message_SegmentList_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_autodrive_message_SegmentArrived_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_autodrive_message_SegmentArrived_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1205,12 +1701,13 @@ public final class Autodrive {
   private static com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    String[] descriptorData = {
+    java.lang.String[] descriptorData = {
       "\n\017autodrive.proto\022\025com.autodrive.message" +
       "\"6\n\017LocationMessage\022\020\n\010latitude\030\001 \002(\001\022\021\n" +
       "\tlongitude\030\002 \002(\001\"H\n\013SegmentList\0229\n\tlocat" +
       "ions\030\001 \003(\0132&.com.autodrive.message.Locat" +
-      "ionMessage"
+      "ionMessage\".\n\016SegmentArrived\022\r\n\005index\030\001 " +
+      "\002(\005\022\r\n\005angle\030\002 \002(\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1229,13 +1726,19 @@ public final class Autodrive {
     internal_static_com_autodrive_message_LocationMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_autodrive_message_LocationMessage_descriptor,
-        new String[] { "Latitude", "Longitude", });
+        new java.lang.String[] { "Latitude", "Longitude", });
     internal_static_com_autodrive_message_SegmentList_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_autodrive_message_SegmentList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_autodrive_message_SegmentList_descriptor,
-        new String[] { "Locations", });
+        new java.lang.String[] { "Locations", });
+    internal_static_com_autodrive_message_SegmentArrived_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_com_autodrive_message_SegmentArrived_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_autodrive_message_SegmentArrived_descriptor,
+        new java.lang.String[] { "Index", "Angle", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

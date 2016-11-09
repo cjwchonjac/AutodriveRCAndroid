@@ -2,13 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/main_bt_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+    <LinearLayout
+        android:id="@+id/main_button_container"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:text="@string/main_button_start"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/main_bt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_start"/>
+
+        <Button
+            android:id="@+id/main_bt_drive_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_drive_start"/>
+
+        <Button
+            android:id="@+id/main_bt_drive_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_drive_end"/>
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/main_text_connection"
         android:id="@+id/main_tv_connection"
-        android:layout_below="@+id/main_bt_start"
+        android:layout_below="@+id/main_button_container"
         android:layout_centerHorizontal="true" />
 
     <Button

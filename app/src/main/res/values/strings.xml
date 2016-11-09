@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AutoDrive</string>
-    <string name="main_button_start">start connection</string>
+    <string name="main_button_drive_start">start</string>
+    <string name="main_button_drive_end">end</string>
+    <string name="main_button_start">connect</string>
     <string name="main_text_search">search</string>
     <string name="main_text_connection">None</string>
     <string name="main_text_connecting">Connecting to device..</string>
