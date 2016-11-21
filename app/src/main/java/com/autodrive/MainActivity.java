@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationManager;
@@ -28,6 +29,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.skp.Tmap.TMapCircle;
 import com.skp.Tmap.TMapData;
 import com.skp.Tmap.TMapMarkerItem;
 import com.skp.Tmap.TMapMarkerItem2;
@@ -84,6 +86,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     TMapPoint mEndPoint;
 
     PointF mTouchDown;
+    List<double[]> mLogs;
 
     Handler mHandler = new Handler();
     /**
@@ -222,7 +225,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mBinder = (AutoDriveService.AutoDriveServiceBinder) service;
                 mBinder.registerCallback(MainActivity.this);
-                mBinder.startGpsUpdate();
+                // mBinder.startGpsUpdate();
             }
 
             @Override
@@ -274,7 +277,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
                     TMapMarkerItem marker = new TMapMarkerItem();
                     marker.setTMapPoint(tMapPoint);
                     mMapView.addMarkerItem("start", marker);
-                } else if (mEndPoint == null) {
+                }
+                /*else if (mEndPoint == null) {
                     mEndPoint = tMapPoint;
                     TMapMarkerItem marker = new TMapMarkerItem();
                     marker.setTMapPoint(tMapPoint);
@@ -349,7 +353,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 startActivity(new Intent(this, ControllerActivity.class));
                 break;
             case R.id.main_bt_drive_log:
-                startActivity(new Intent(this, PathLogSelector.class));
+                startActivityForResult(new Intent(this, PathLogSelector.class), 1);
                 break;
             case R.id.main_button_search:
                 /*if (mLocationEditText.getText().length() > 0) {
@@ -429,6 +433,17 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 if (mBinder != null) {
                     mBinder.sendSegmentList(builder.build());
                 }
+
+                if (mLogs != null) {
+                    for (final double[] log : mLogs) {
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBinder.testGPS(log[0], log[1]);
+                            }
+                        }, (long) log[2] / 2);
+                    }
+                }
             }
         });
     }
@@ -487,6 +502,24 @@ public class MainActivity extends Activity implements View.OnClickListener,
         line.addLinePoint(new TMapPoint(oLat, oLng));
         line.addLinePoint(new TMapPoint(pLat, pLng));
         mMapView.addTMapPolyLine("vertical", line);
+
+        TMapCircle circle = new TMapCircle();
+        circle.setCenterPoint(new TMapPoint(oLat, oLng));
+        circle.setID("orig");
+        circle.setAreaColor(Color.RED);
+        circle.setRadiusVisible(true);
+        circle.setRadius(2);
+        circle.setCircleWidth(2);
+        mMapView.addTMapCircle("orig", circle);
+
+        circle = new TMapCircle();
+        circle.setCenterPoint(new TMapPoint(pLat, pLng));
+        circle.setID("proj");
+        circle.setAreaColor(Color.BLUE);
+        circle.setRadiusVisible(true);
+        circle.setRadius(2);
+        circle.setCircleWidth(2);
+        mMapView.addTMapCircle("proj", circle);
     }
 
     public void testCollector() {
@@ -497,6 +530,37 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 File f = list[list.length - 1];
                 PathCollector.dump(f.getAbsolutePath());
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mLogs = null;
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String path = data.getStringExtra("path");
+            List<double[]> logs = PathCollector.dumpWithText(path);
+
+            if (logs != null) {
+                double[] first = logs.get(0);
+                double[] last = logs.get(logs.size() - 1);
+
+                mStartPoint = new TMapPoint(first[0], first[1]);
+                mEndPoint = new TMapPoint(last[0], last[1]);
+
+                mLogs = logs;
+            } else {
+                mStartPoint = new TMapPoint(37.56122302, 126.9361209);
+                mEndPoint = new TMapPoint(37.56265385, 126.9347596);
+            }
+
+            TMapMarkerItem marker = new TMapMarkerItem();
+            marker.setTMapPoint(mStartPoint);
+            mMapView.addMarkerItem("start", marker);
+
+            marker = new TMapMarkerItem();
+            marker.setTMapPoint(mEndPoint);
+            mMapView.addMarkerItem("end", marker);
         }
     }
 }

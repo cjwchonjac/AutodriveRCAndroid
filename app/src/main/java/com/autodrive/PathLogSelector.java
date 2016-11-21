@@ -1,6 +1,7 @@
 package com.autodrive;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -66,6 +67,10 @@ public class PathLogSelector extends Activity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ArrayAdapter<LogItem> items = (ArrayAdapter<LogItem>) parent.getAdapter();
         LogItem item = items.getItem(position);
-        PathCollector.dump(item.f.getAbsolutePath());
+
+        Intent intent = new Intent();
+        intent.putExtra("path", item.f.getAbsolutePath());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
