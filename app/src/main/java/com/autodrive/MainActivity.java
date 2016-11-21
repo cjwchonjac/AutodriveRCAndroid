@@ -38,6 +38,7 @@ import com.skp.Tmap.TMapView;
 
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +58,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
     Button mButton;
     Button mDriveStartButton;
     Button mDriveEndButton;
+    Button mDriveControlButton;
+    Button mDriveLogButton;
     TextView mConnectionText;
     TextView mStatusText;
     EditText mLocationEditText;
@@ -169,11 +172,19 @@ public class MainActivity extends Activity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        // testCollector();
+
         mDriveStartButton = (Button) findViewById(R.id.main_bt_drive_start);
         mDriveStartButton.setOnClickListener(this);
 
         mDriveEndButton = (Button) findViewById(R.id.main_bt_drive_end);
         mDriveEndButton.setOnClickListener(this);
+
+        mDriveControlButton = (Button) findViewById(R.id.main_bt_drive_control);
+        mDriveControlButton.setOnClickListener(this);
+
+        mDriveLogButton = (Button) findViewById(R.id.main_bt_drive_log);
+        mDriveLogButton.setOnClickListener(this);
 
         mButton = (Button) findViewById(R.id.main_bt_start);
         mButton.setOnClickListener(this);
@@ -334,6 +345,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
             case R.id.main_bt_start:
                 mBinder.connect();
                 break;
+            case R.id.main_bt_drive_control:
+                startActivity(new Intent(this, ControllerActivity.class));
+                break;
+            case R.id.main_bt_drive_log:
+                startActivity(new Intent(this, PathLogSelector.class));
+                break;
             case R.id.main_button_search:
                 /*if (mLocationEditText.getText().length() > 0) {
                     new SearchThread().execute(mLocationEditText.getText().toString());
@@ -470,5 +487,16 @@ public class MainActivity extends Activity implements View.OnClickListener,
         line.addLinePoint(new TMapPoint(oLat, oLng));
         line.addLinePoint(new TMapPoint(pLat, pLng));
         mMapView.addTMapPolyLine("vertical", line);
+    }
+
+    public void testCollector() {
+        File dir = getExternalFilesDir(null);
+        if (dir != null) {
+            File[] list = dir.listFiles();
+            if (list != null && list.length > 0) {
+                File f = list[list.length - 1];
+                PathCollector.dump(f.getAbsolutePath());
+            }
+        }
     }
 }

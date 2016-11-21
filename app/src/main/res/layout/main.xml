@@ -27,6 +27,18 @@
             android:layout_height="wrap_content"
             android:text="@string/main_button_drive_end"/>
 
+        <Button
+            android:id="@+id/main_bt_drive_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_drive_control"/>
+
+        <Button
+            android:id="@+id/main_bt_drive_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_drive_log"/>
+
     </LinearLayout>
 
 

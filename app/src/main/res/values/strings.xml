@@ -3,8 +3,16 @@
     <string name="main_button_drive_start">start</string>
     <string name="main_button_drive_end">end</string>
     <string name="main_button_start">connect</string>
+    <string name="main_button_drive_control">control</string>
+    <string name="main_button_drive_log">log</string>
     <string name="main_text_search">search</string>
     <string name="main_text_connection">None</string>
     <string name="main_text_connecting">Connecting to device..</string>
     <string name="main_text_initialized" formatted="false">Connected to device %s</string>
+
+    <string name="controller_button_go">Go</string>
+    <string name="controller_button_back">Back</string>
+    <string name="controller_button_left">Left</string>
+    <string name="controller_button_right">Right</string>
+    <string name="controller_button_stop">Stop</string>
 </resources>

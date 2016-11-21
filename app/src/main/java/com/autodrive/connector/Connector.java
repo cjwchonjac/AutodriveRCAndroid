@@ -67,6 +67,13 @@ public class Connector {
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_START = 0x50000000;
     private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_END = 0x50000001;
 
+    // for test
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_STOP = 0x60000000;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_GO = 0x60000001;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_BACK = 0x60000002;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_LEFT = 0x60000003;
+    private static final int AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_RIGHT = 0x60000004;
+
     private static final int READ_BUFFER_SIZE = 1024 * 1024;
 
     private Socket mSocket;
@@ -514,6 +521,36 @@ public class Connector {
     public void sendDriveEnd() {
         sendData(mSeqInt.getAndIncrement(),
                 AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_END,
+                null);
+    }
+
+    public void sendStop() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_STOP,
+                null);
+    }
+
+    public void sendGo() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_GO,
+                null);
+    }
+
+    public void sendBack() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_BACK,
+                null);
+    }
+
+    public void sendLeft() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_LEFT,
+                null);
+    }
+
+    public void sendRight() {
+        sendData(mSeqInt.getAndIncrement(),
+                AUTODRIVE_PROTOCOL_ACTION_CODE_CLIENT_TO_SERVER_CONTROL_RIGHT,
                 null);
     }
 

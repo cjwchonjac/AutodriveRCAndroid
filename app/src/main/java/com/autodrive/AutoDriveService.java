@@ -40,6 +40,8 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
     int mLastSeg;
     private  Autodrive.SegmentList mList;
     Set<AutoDriveServiceCallback> mCallbacks;
+    PathCollector collector;
+    long tick;
 
     Handler handler;
 
@@ -80,6 +82,10 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
             if (mConnector != null) {
                 mConnector.sendSegmentList(list);
+
+                if (collector != null) {
+                    collector.emitSegments(list);
+                }
             }
         }
 
@@ -106,6 +112,46 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
         }
 
+        public void go() {
+            if (mConnector != null) {
+                mConnector.sendGo();
+            }
+
+            Log.d("cjw", "sendGo");
+        }
+
+        public void back() {
+            if (mConnector != null) {
+                mConnector.sendBack();
+            }
+
+            Log.d("cjw", "sendBack");
+        }
+
+        public void stop() {
+            if (mConnector != null) {
+                mConnector.sendStop();
+            }
+
+            Log.d("cjw", "sendStop");
+        }
+
+        public void left() {
+            if (mConnector != null) {
+                mConnector.sendLeft();
+            }
+
+            Log.d("cjw", "sendLeft");
+        }
+
+        public void right() {
+            if (mConnector != null) {
+                mConnector.sendRight();
+            }
+
+            Log.d("cjw", "sendRight");
+        }
+
     }
 
     public interface AutoDriveServiceCallback {
@@ -129,6 +175,7 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
         mCallbacks = new HashSet<>();
         handler = new Handler();
+        collector = new PathCollector();
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -169,6 +216,12 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
     public void startAutoDrive() {
         Criteria criteria = new Criteria();
+        collector.init(this);
+        tick = System.currentTimeMillis();
+
+        if (mList != null) {
+            collector.emitSegments(mList);
+        }
 
         String provider = mLocationManager.getBestProvider(criteria, true);
         mLocation = mLocationManager.getLastKnownLocation(provider);
@@ -179,9 +232,12 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
             for (AutoDriveServiceCallback c : mCallbacks) {
                 c.onLocationChanged(mLocation);
             }
+
+            collector.emitGps(mLocation.getLatitude(), mLocation.getLongitude(), System.currentTimeMillis() - tick);
         }
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100l, 1.0f, this);
+        // mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100l, 1.0f, this);
         sendCurrentLocation();
     }
 
@@ -225,6 +281,10 @@ public class AutoDriveService extends Service implements SensorEventListener, Lo
 
 
         sendCurrentLocation();
+
+        if (mConnector != null && collector != null) {
+            collector.emitGps(mLocation.getLatitude(), mLocation.getLongitude(), System.currentTimeMillis() - tick);
+        }
     }
 
     void handleLocationChange() {
